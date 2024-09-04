@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  testmsu:
+    image: ${DOCKER_REGISTRY-}testmsu
+    build:
+      context: .
+      dockerfile: TestMSU/Dockerfile
+    ports:
+      - "8080:8080" 
+      - "8081:8081" 
+    depends_on:
+      - db
+    networks:
+     - my-network
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: messageDb
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
